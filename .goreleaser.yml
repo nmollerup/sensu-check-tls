@@ -1,12 +1,13 @@
+project_name: "tls checks"
 builds:
   # List of builds
-  - # First Build
+  - #  
+  - main: ./cmd/check-tls-cert/main.go
+    id: "check-tls-cert"
     env:
-      - CGO_ENABLED=0
-    main: .
+    - CGO_ENABLED=0
     ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
-    # Set the binary output location to bin/ so archive will comply with Sensu Go Asset structure
-    binary: bin/{{ .ProjectName }}
+    binary: bin/check-tls
     goos:
       - darwin
       - linux
