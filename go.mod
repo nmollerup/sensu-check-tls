@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/go-playground/validator/v10 v10.18.0
-	github.com/sensu/sensu-go/api/core/v2 v2.14.0
+	github.com/sensu/sensu-go/api/core/v2 v2.16.0
 	github.com/sensu/sensu-plugin-sdk v0.16.0
 
 )
