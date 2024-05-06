@@ -3,7 +3,7 @@ module github.com/nmollerup/sensu-check-tls
 go 1.20
 
 require (
-	github.com/go-playground/validator/v10 v10.19.0
+	github.com/go-playground/validator/v10 v10.20.0
 	github.com/sensu/sensu-go/api/core/v2 v2.14.0
 	github.com/sensu/sensu-plugin-sdk v0.16.0
 
