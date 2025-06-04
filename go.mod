@@ -1,12 +1,11 @@
 module github.com/nmollerup/sensu-check-tls
 
-go 1.20
+go 1.23.0
 
 require (
 	github.com/go-playground/validator/v10 v10.26.0
 	github.com/sensu/sensu-go/api/core/v2 v2.14.0
 	github.com/sensu/sensu-plugin-sdk v0.16.0
-
 )
 
 require (
@@ -41,7 +40,7 @@ require (
 	github.com/spf13/viper v1.7.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.5 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
