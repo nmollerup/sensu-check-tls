@@ -125,7 +125,7 @@ func executeCheck(event *corev2.Event) (int, error) {
 		return sensu.CheckStateCritical, fmt.Errorf("%v", err)
 	}
 	defer func() {
-		_ := conn.Close()
+		_ = conn.Close()
 	} ()
 
 	timeNow := time.Now()
