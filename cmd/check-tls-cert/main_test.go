@@ -582,7 +582,7 @@ func startTestTLSServerWithCA(t *testing.T, daysUntilExpiry int) (host string, p
 	}()
 
 	addr := listener.Addr().(*net.TCPAddr)
-	return "localhost.localdomain", addr.Port, tmpfile.Name(), func() {
+	return "localhost", addr.Port, tmpfile.Name(), func() {
 		_ = listener.Close()
 		_ = os.Remove(tmpfile.Name())
 	}
