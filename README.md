@@ -2,7 +2,9 @@
 ![goreleaser](https://github.com/nmollerup/sensu-check-tls/workflows/goreleaser/badge.svg)
 
 # sensu-check-tls
+
 ## Table of Contents
+
 - [Overview](#overview)
   - [Attribution](#attribution)
   - [Checks](#checks)
