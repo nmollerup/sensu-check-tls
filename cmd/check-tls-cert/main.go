@@ -120,7 +120,7 @@ func checkArgs(event *corev2.Event) (int, error) {
 }
 func executeCheck(event *corev2.Event) (int, error) {
 	fqdn := plugin.Host + ":" + fmt.Sprint(plugin.Port)
-	conn, err := tls.Dial("tcp", fqdn, nil)
+	conn, err := tls.Dial("tcp", fqdn, &tlsConfig)
 	if err != nil {
 		return sensu.CheckStateCritical, fmt.Errorf("%v", err)
 	}
@@ -136,13 +136,15 @@ func executeCheck(event *corev2.Event) (int, error) {
 	expiresInHours := int64(cert.NotAfter.Sub(timeNow).Hours())
 	expiresInDays := int(expiresInHours / 24)
 	// Check the expiration.
-	if timeNow.AddDate(0, 0, plugin.Warning).After(cert.NotAfter) {
-		fmt.Printf("warning: cert expires in %v days", expiresInDays)
-		return sensu.CheckStateWarning, nil
-	}
+	// Check critical threshold first (more severe)
 	if timeNow.AddDate(0, 0, plugin.Critical).After(cert.NotAfter) {
 		fmt.Printf("critical: cert expires in %v days", expiresInDays)
 		return sensu.CheckStateCritical, nil
+	}
+	// Then check warning threshold
+	if timeNow.AddDate(0, 0, plugin.Warning).After(cert.NotAfter) {
+		fmt.Printf("warning: cert expires in %v days", expiresInDays)
+		return sensu.CheckStateWarning, nil
 	}
 	fmt.Printf("certificate for %v:%v expires in %v days\n", plugin.Host, plugin.Port, expiresInDays)
 	return sensu.CheckStateOK, nil
