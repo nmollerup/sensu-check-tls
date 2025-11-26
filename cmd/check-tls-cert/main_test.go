@@ -169,7 +169,7 @@ func TestCheckArgs(t *testing.T) {
 				// Generate a self-signed CA certificate
 				priv, err := rsa.GenerateKey(rand.Reader, 2048)
 				if err != nil {
-					os.Remove(tmpfile.Name())
+					_ = os.Remove(tmpfile.Name())
 					t.Fatal(err)
 				}
 
@@ -187,14 +187,14 @@ func TestCheckArgs(t *testing.T) {
 
 				certDER, err := x509.CreateCertificate(rand.Reader, &template, &template, &priv.PublicKey, priv)
 				if err != nil {
-					os.Remove(tmpfile.Name())
+					_ = os.Remove(tmpfile.Name())
 					t.Fatal(err)
 				}
 
-				pem.Encode(tmpfile, &pem.Block{Type: "CERTIFICATE", Bytes: certDER})
-				tmpfile.Close()
+				_ = pem.Encode(tmpfile, &pem.Block{Type: "CERTIFICATE", Bytes: certDER})
+				_ = tmpfile.Close()
 
-				return tmpfile.Name(), func() { os.Remove(tmpfile.Name()) }
+				return tmpfile.Name(), func() { _ = os.Remove(tmpfile.Name()) }
 			},
 			wantStatus: sensu.CheckStateOK,
 			wantErr:    false,
@@ -471,13 +471,13 @@ func startTestTLSServer(t *testing.T, daysUntilExpiry int) (host string, port in
 				}
 				// Keep connection open briefly
 				time.Sleep(100 * time.Millisecond)
-				c.Close()
+				_ = c.Close()
 			}(conn)
 		}
 	}()
 
 	addr := listener.Addr().(*net.TCPAddr)
-	return "127.0.0.1", addr.Port, func() { listener.Close() }
+	return "127.0.0.1", addr.Port, func() { _ = listener.Close() }
 }
 
 // startTestTLSServerWithCA creates a test TLS server with a CA-signed certificate
@@ -510,13 +510,13 @@ func startTestTLSServerWithCA(t *testing.T, daysUntilExpiry int) (host string, p
 	if err != nil {
 		t.Fatal(err)
 	}
-	pem.Encode(tmpfile, &pem.Block{Type: "CERTIFICATE", Bytes: caCertDER})
-	tmpfile.Close()
+	_ = pem.Encode(tmpfile, &pem.Block{Type: "CERTIFICATE", Bytes: caCertDER})
+	_ = tmpfile.Close()
 
 	// Generate server certificate signed by CA
 	serverPriv, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		os.Remove(tmpfile.Name())
+		_ = os.Remove(tmpfile.Name())
 		t.Fatal(err)
 	}
 
@@ -538,13 +538,13 @@ func startTestTLSServerWithCA(t *testing.T, daysUntilExpiry int) (host string, p
 
 	caCert, err := x509.ParseCertificate(caCertDER)
 	if err != nil {
-		os.Remove(tmpfile.Name())
+		_ = os.Remove(tmpfile.Name())
 		t.Fatal(err)
 	}
 
 	serverCertDER, err := x509.CreateCertificate(rand.Reader, &serverTemplate, caCert, &serverPriv.PublicKey, caPriv)
 	if err != nil {
-		os.Remove(tmpfile.Name())
+		_ = os.Remove(tmpfile.Name())
 		t.Fatal(err)
 	}
 
@@ -558,7 +558,7 @@ func startTestTLSServerWithCA(t *testing.T, daysUntilExpiry int) (host string, p
 		Certificates: []tls.Certificate{cert},
 	})
 	if err != nil {
-		os.Remove(tmpfile.Name())
+		_ = os.Remove(tmpfile.Name())
 		t.Fatal(err)
 	}
 
@@ -576,15 +576,15 @@ func startTestTLSServerWithCA(t *testing.T, daysUntilExpiry int) (host string, p
 				}
 				// Keep connection open briefly
 				time.Sleep(100 * time.Millisecond)
-				c.Close()
+				_ = c.Close()
 			}(conn)
 		}
 	}()
 
 	addr := listener.Addr().(*net.TCPAddr)
 	return "localhost.localdomain", addr.Port, tmpfile.Name(), func() {
-		listener.Close()
-		os.Remove(tmpfile.Name())
+		_ = listener.Close()
+		_ = os.Remove(tmpfile.Name())
 	}
 }
 
