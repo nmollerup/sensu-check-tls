@@ -94,9 +94,14 @@ func checkArgs(event *corev2.Event) (int, error) {
 	if len(plugin.Host) == 0 {
 		return sensu.CheckStateWarning, fmt.Errorf("--hostname is required")
 	}
+	// Validate hostname is either a valid FQDN or IP address
 	err := validate.Var(plugin.Host, "fqdn")
 	if err != nil {
-		return sensu.CheckStateWarning, fmt.Errorf("hostname is not a valid FQDN")
+		// If not a valid FQDN, check if it's a valid IP
+		err = validate.Var(plugin.Host, "ip")
+		if err != nil {
+			return sensu.CheckStateWarning, fmt.Errorf("hostname is not a valid FQDN or IP address")
+		}
 	}
 	if plugin.Critical <= 0 {
 		return sensu.CheckStateWarning, fmt.Errorf("--critical is required")
