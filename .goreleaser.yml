@@ -1,5 +1,5 @@
 version: 2
-project_name: "tls checks"
+project_name: "sensu-check-tls"
 builds:
   - main: ./cmd/check-tls-cert/main.go
     id: "check-tls-cert"
