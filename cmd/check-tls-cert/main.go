@@ -14,6 +14,7 @@ import (
 type Config struct {
 	sensu.PluginConfig
 	Host               string
+	IP                 string
 	TrustedCAFile      string
 	InsecureSkipVerify bool
 	Port               int
@@ -40,6 +41,13 @@ var (
 			Default:  "http://localhost:80/",
 			Usage:    "hostname to check",
 			Value:    &plugin.Host,
+		},
+		&sensu.PluginConfigOption[string]{
+			Path:     "ip",
+			Argument: "ip",
+			Default:  "",
+			Usage:    "IP address to connect to (overrides DNS resolution, hostname still used for TLS SNI)",
+			Value:    &plugin.IP,
 		},
 		&sensu.PluginConfigOption[bool]{
 			Path:      "insecure-skip-verify",
@@ -112,6 +120,13 @@ func checkArgs(event *corev2.Event) (int, error) {
 	if plugin.Warning <= plugin.Critical {
 		return sensu.CheckStateWarning, fmt.Errorf("warning cannot be lower than Critical value")
 	}
+	// Validate IP address if provided
+	if len(plugin.IP) > 0 {
+		err := validate.Var(plugin.IP, "ip")
+		if err != nil {
+			return sensu.CheckStateWarning, fmt.Errorf("--ip is not a valid IP address")
+		}
+	}
 	if len(plugin.TrustedCAFile) > 0 {
 		caCertPool, err := corev2.LoadCACerts(plugin.TrustedCAFile)
 		if err != nil {
@@ -120,12 +135,20 @@ func checkArgs(event *corev2.Event) (int, error) {
 		tlsConfig.RootCAs = caCertPool
 	}
 	tlsConfig.InsecureSkipVerify = plugin.InsecureSkipVerify
+	// Set ServerName for TLS SNI to the hostname
+	tlsConfig.ServerName = plugin.Host
 
 	return sensu.CheckStateOK, nil
 }
 func executeCheck(event *corev2.Event) (int, error) {
-	fqdn := plugin.Host + ":" + fmt.Sprint(plugin.Port)
-	conn, err := tls.Dial("tcp", fqdn, &tlsConfig)
+	// Use IP if provided, otherwise use hostname
+	var dialAddress string
+	if len(plugin.IP) > 0 {
+		dialAddress = plugin.IP + ":" + fmt.Sprint(plugin.Port)
+	} else {
+		dialAddress = plugin.Host + ":" + fmt.Sprint(plugin.Port)
+	}
+	conn, err := tls.Dial("tcp", dialAddress, &tlsConfig)
 	if err != nil {
 		return sensu.CheckStateCritical, fmt.Errorf("%v", err)
 	}
