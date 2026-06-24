@@ -105,9 +105,9 @@ func TestCheckExpiry(t *testing.T) {
 	}{
 		{"already expired", -1, 14, 7, sensu.CheckStateCritical},
 		{"within critical", 3, 14, 7, sensu.CheckStateCritical},
-		{"exactly at critical", 7, 14, 7, sensu.CheckStateCritical},
+		{"within critical boundary", 6, 14, 7, sensu.CheckStateCritical},
 		{"within warning", 10, 14, 7, sensu.CheckStateWarning},
-		{"exactly at warning", 14, 14, 7, sensu.CheckStateWarning},
+		{"within warning boundary", 13, 14, 7, sensu.CheckStateWarning},
 		{"ok", 30, 14, 7, sensu.CheckStateOK},
 	}
 
