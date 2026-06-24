@@ -6,7 +6,119 @@ builds:
     env:
     - CGO_ENABLED=0
     ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
-    binary: bin/check-tls
+    binary: bin/check-tls-cert
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-host/main.go
+    id: "check-tls-host"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-host
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-crl/main.go
+    id: "check-tls-crl"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-crl
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-chain/main.go
+    id: "check-tls-chain"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-chain
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-hsts-preloadable/main.go
+    id: "check-tls-hsts-preloadable"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-hsts-preloadable
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-hsts-status/main.go
+    id: "check-tls-hsts-status"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-hsts-status
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-qualys/main.go
+    id: "check-tls-qualys"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-qualys
+    targets:
+      - linux_386
+      - linux_amd64
+      - linux_arm_5
+      - linux_arm_6
+      - linux_arm_7
+      - linux_arm64
+      - windows_386
+      - windows_amd64
+
+  - main: ./cmd/check-tls-keystore/main.go
+    id: "check-tls-keystore"
+    env:
+    - CGO_ENABLED=0
+    ldflags: '-s -w -X github.com/sensu/sensu-plugin-sdk/version.version={{.Version}} -X github.com/sensu/sensu-plugin-sdk/version.commit={{.Commit}} -X github.com/sensu/sensu-plugin-sdk/version.date={{.Date}}'
+    binary: bin/check-tls-keystore
     targets:
       - linux_386
       - linux_amd64
